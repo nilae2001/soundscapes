@@ -1,0 +1,82 @@
+@layer theme, base, mantine, components, utilities;
+@import "tailwindcss";
+@import "@mantine/core/styles.layer.css";
+@import "@mantine/carousel/styles.layer.css";
+
+@theme {
+  --color-bg: #ffffff;
+  --color-surface: #f3f4f6;
+  --color-border: #e5e7eb;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-accent: #3b82f6;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+:root[data-mantine-color-scheme="dark"] {
+  --color-bg: #0b0f14;
+  --color-surface: #111827;
+  --color-border: #1f2937;
+  --color-text-primary: #e5e7eb;
+  --color-text-secondary: #9ca3af;
+  --color-accent: #60a5fa;
+
+  --mantine-color-body: var(--color-bg) !important;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 400ms;
+  }
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h4,
+h5,
+h6,
+p {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+body {
+  background-color: var(--color-bg) !important;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+
+.animate-pulse-slow-delay {
+  animation: pulse-slow 8s ease-in-out infinite 2s;
+}
+
+.animate-pulse-slow-delay2 {
+  animation: pulse-slow 10s ease-in-out infinite 4s;
+}
