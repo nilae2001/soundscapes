@@ -525,7 +525,6 @@ export function SoundscapePage() {
                             ? book.authors.join(", ")
                             : book.authors || "Unknown Author"}
                         </Text>
-                        {/* ... "Get Copy" Group */}
                       </Stack>
                     </Group>
                   </Box>
