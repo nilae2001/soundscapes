@@ -39,6 +39,7 @@ interface SoundscapeWithProfile {
   title: string;
   description: string;
   image_url: string;
+  user_id: string;
   profiles: {
     username: string;
   } | null;
@@ -100,7 +101,8 @@ export function SoundscapePage() {
         .eq("soundscape_id", id);
 
       if (jError) {
-        console.error("Error fetching tracks:", jError);
+        if (import.meta.env.DEV)
+          console.error("Error fetching tracks:", jError);
       }
 
       let userSettings: Record<string, number> = {};
@@ -282,10 +284,21 @@ export function SoundscapePage() {
       labels: { confirm: "Delete vibe", cancel: "No, keep it" },
       confirmProps: { color: "red" },
       onConfirm: async () => {
+        // Verify ownership before delete
+        if (soundscape?.user_id !== user?.id) {
+          notifications.show({
+            title: "Access Denied",
+            message: "You can only delete your own soundscapes",
+            color: "red",
+          });
+          return;
+        }
+
         const { error } = await supabase
           .from("soundscapes")
           .delete()
-          .eq("id", id);
+          .eq("id", id)
+          .eq("user_id", user?.id);
 
         if (error) {
           notifications.show({

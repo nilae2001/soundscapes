@@ -18,6 +18,7 @@ import { ModalsProvider } from "@mantine/modals";
 import { ProfilePage } from "./pages/ProfilePage";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
+import { Footer } from "./components/Footer";
 
 export default function App() {
   const { setUser, setSavedIds, setProfile } = useAuthStore();
@@ -122,6 +123,7 @@ export default function App() {
               }
             />
           </Routes>
+          <Footer />
         </ModalsProvider>
       </BrowserRouter>
     </MantineProvider>

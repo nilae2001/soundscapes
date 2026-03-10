@@ -34,7 +34,8 @@ export function FeaturedSounds() {
       const { data, error } = await query;
 
       if (error) {
-        console.error("Error fetching featured sounds:", error);
+        if (import.meta.env.DEV)
+          console.error("Error fetching featured sounds:", error);
         return;
       }
 

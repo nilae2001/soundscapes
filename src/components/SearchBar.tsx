@@ -11,9 +11,11 @@ import {
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import { useAuthStore } from "../store/useAuthStore";
 import { IconSearch, IconX } from "@tabler/icons-react";
 
 export function SoundscapeSearch() {
+  const { user } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<
     { value: string; id: string; image: string; type: "sound" | "user" }[]
@@ -39,11 +41,17 @@ export function SoundscapeSearch() {
       .eq("is_public", true)
       .limit(5);
 
-    const profileSearch = supabase
-      .from("profiles")
-      .select("id, username, avatar_url")
-      .ilike("username", `%${val}%`)
-      .limit(3);
+    // Only allow authenticated users to search profiles (prevents enumeration)
+    let profileSearch;
+    if (user) {
+      profileSearch = supabase
+        .from("profiles")
+        .select("id, username, avatar_url")
+        .ilike("username", `%${val}%`)
+        .limit(3);
+    } else {
+      profileSearch = Promise.resolve({ data: null, error: null });
+    }
 
     const [resSounds, resProfiles] = await Promise.all([
       soundSearch,

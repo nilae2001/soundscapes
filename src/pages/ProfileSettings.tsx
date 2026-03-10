@@ -51,8 +51,32 @@ export function ProfileSettings() {
     getProfile();
   }, [user]);
 
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
+  const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
+
   const handleFileChange = (file: File | null) => {
     if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        notifications.show({
+          title: "File Too Large",
+          message: "Avatar must be smaller than 5MB",
+          color: "red",
+          autoClose: 3000,
+        });
+        return;
+      }
+
+      // Validate file type
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        notifications.show({
+          title: "Invalid File Type",
+          message: "Only PNG, JPEG, and WebP images are allowed",
+          color: "red",
+          autoClose: 3000,
+        });
+        return;
+      }
+
       setSelectedFile(file);
       setAvatarUrl(URL.createObjectURL(file));
     }
@@ -64,7 +88,12 @@ export function ProfileSettings() {
       let finalAvatarUrl = avatarUrl;
 
       if (selectedFile && user) {
-        const fileExt = selectedFile.name.split(".").pop();
+        const mimeToExt: Record<string, string> = {
+          "image/png": "png",
+          "image/jpeg": "jpg",
+          "image/webp": "webp",
+        };
+        const fileExt = mimeToExt[selectedFile.type] || "jpg";
         const filePath = `${user.id}/${Date.now()}.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage

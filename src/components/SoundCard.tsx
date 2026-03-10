@@ -35,7 +35,8 @@ export function SoundCard({ sound }: SoundCardProps) {
       await supabase
         .from("saved_sounds")
         .delete()
-        .eq("soundscape_id", sound.id);
+        .eq("soundscape_id", sound.id)
+        .eq("user_id", user.id);
     } else {
       addSavedId(sound.id);
       await supabase
