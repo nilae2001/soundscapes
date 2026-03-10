@@ -91,6 +91,7 @@ export function BookSearch({
     <Stack gap="xs">
       <TextInput
         label="Add Books"
+        description="Type to find a book"
         placeholder="Search books..."
         value={bookQuery}
         onChange={(e) => setBookQuery(e.currentTarget.value)}
