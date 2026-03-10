@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# 🎧 Soundscapes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Curate your own ambient vibe. Layer sounds, pair books, and build a personal sonic environment — all powered by AI.
 
-Currently, two official plugins are available:
+**Live:** [nilaerturk.com/soundscapes](https://nilaerturk.com/soundscapes/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **AI sound search** — describe a vibe and Gemini + Freesound scout the best matching ambient tracks
+- **Layered mixer** — stack multiple sounds with individual volume controls
+- **Per-user settings** — your volume mix is saved to your account and persists across sessions
+- **Book pairings** — attach books that match the vibe via Google Books
+- **Public & private soundscapes** — share with the world or keep it for yourself
+- **Auth** — email/password with confirmation via Supabase Auth
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Frontend** — React, TypeScript, Vite, Tailwind CSS, Mantine UI
+- **Backend** — Supabase (database, auth, edge functions, RLS)
+- **AI** — Google Gemini 1.5 Flash
+- **APIs** — Freesound, Pexels, Google Books
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Local Setup
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/nilae2001/soundscapes
+cd soundscapes
+npm install
+cp .env.example .env   # fill in your keys
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+VITE_APP_URL=
 ```
+
+> The Pexels, Freesound, Gemini, and Google Books keys live in Supabase edge function secrets and are never exposed to the client.
